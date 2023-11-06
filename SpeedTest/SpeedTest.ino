@@ -8,7 +8,7 @@ class SlowServo {
   protected:
     uint16_t target = 40;       // target angle
     uint16_t current = 40;      // current angle
-    uint8_t interval = 50;      // delay time
+    uint8_t interval = 20;      // delay time
     uint32_t previousMillis = 0;
     Servo servo;
 
