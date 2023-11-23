@@ -63,7 +63,7 @@ void loop() {
       String secondValue = receivedData.substring(commaIndex + 1);
 
       // Convert the string values to integers or other data types if needed
-      int firstIntValue = constrain(firstValue.toInt(), 30, 120);
+      int firstIntValue = constrain(firstValue.toInt(), 0, 120);
       int secondIntValue = constrain(secondValue.toInt(), 0, 120);
       myservo1.write(firstIntValue);
       myservo2.write(secondIntValue);
