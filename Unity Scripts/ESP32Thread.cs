@@ -16,7 +16,7 @@ public class ESP32Thread : MonoBehaviour
     private Queue inputQueue;
     private SerialPort stream;
     public bool looping = true;
-    private int counter = 0;
+    public int counter = 0;
 
     public void StartThread()
     {
@@ -33,20 +33,29 @@ public class ESP32Thread : MonoBehaviour
         return outputQueue != null && inputQueue != null;
     }
 
-    public void StopThread()
-    {
-        lock (this)
-        {
-            looping = false;
-        }
-    }
+    // public void StopThread()
+    // {
+    //     lock (this)
+    //     {
+    //         looping = false;
+    //     }
+    // }
 
-    public bool IsLooping ()
+    // public bool IsLooping ()
+    // {
+    //     lock (this)
+    //     {
+    //         return looping;
+    //     }
+    // }
+
+    public void ResetCounter()
     {
-        lock (this)
-        {
-            return looping;
-        }
+        //lock (this)
+        //{
+            counter = 0;
+        //}
+        
     }
     
     public void SendOutgoingMessage(string message)
@@ -59,6 +68,9 @@ public class ESP32Thread : MonoBehaviour
     public void EnqueueOutgoingMessage(string command)
     // Enqueue the data to be send to ESP32
     {
+        if (outputQueue.Count >= 5) {
+            outputQueue.Dequeue();
+        }
         outputQueue.Enqueue(command);
     }    
 
@@ -95,21 +107,41 @@ public class ESP32Thread : MonoBehaviour
 
     public void CheckOutputQueue()
     {
-        foreach (string item in outputQueue)
+        string x = "";
+        if (outputQueue.Count != 0)
         {
-            Debug.Log(item);
+                Debug.Log(outputQueue.Count + " item(s) in the output queue:");
+                
+                // foreach (string item in outputQueue)
+                // {
+                //     x = x + item;
+                // }
+                // //Debug.Log(x);
+                // x = "";
+
+            }
+        else {
+            Debug.Log("No items in the output queue");
         }
     }
 
     public void CheckInputQueue()
     {
+        string x = "";
         if (inputQueue.Count != 0)
         {
-            Debug.Log(inputQueue.Count + " item(s) in the input queue:");    
-            foreach (string item in inputQueue)
-            {
-                Debug.Log(item);
+                Debug.Log(inputQueue.Count + " item(s) in the input queue:");
+                
+                // foreach (string item in inputQueue)
+                // {
+                //     x = x + item;
+                // }
+                //Debug.Log(x);
+                // x = "";
+
             }
+        else {
+            Debug.Log("No items in the input queue");
         }
     }
 
@@ -119,18 +151,27 @@ public class ESP32Thread : MonoBehaviour
     {
         // Define SerialPort name and BAUD rate, open the stream
         stream = new SerialPort(portName, baudRate);
-        stream.ReadTimeout = 50;
+        stream.ReadTimeout = 0;
         stream.Open();
-
-    while (IsLooping())
+        inputQueue.Clear();
+        outputQueue.Clear();
+        
+        while (looping)
         // Run the loop
-        {
+        {   
+            
+            
             // Check for items in the output queue - dequeue and send over the serial port
             if (outputQueue.Count != 0)
             {
-                Debug.Log("sending and dequeuing");
+                
+                //Debug.Log("sending and dequeuing");
                 //CheckOutputQueue();
                 string command = (string)outputQueue.Dequeue();
+                counter += 1;
+                
+                //CheckOutputQueue();
+                //Debug.Log(command);
                 SendOutgoingMessage(command);
             }
 
@@ -138,10 +179,14 @@ public class ESP32Thread : MonoBehaviour
             string result = ReadIncomingMessage(stream.ReadTimeout);
             if (result != null)
             {
-                //Debug.Log("received msg");
+                if (inputQueue.Count >= 5) {
+                    inputQueue.Dequeue();
+                }
                 inputQueue.Enqueue(result);
+                
             }
         }
+
         stream.Close();
     }
 }
