@@ -54,9 +54,9 @@ String stringToSend = "";
 unsigned long prevMillis = 0;
 
 // PWM constants/variables
-int armClose = 10;
+int armClose = 14;
 int armFar = 40;
-int gripperClosed = 30;
+int gripperClosed = 34;
 int gripperOpen = 70;
 
 void setup()
@@ -92,18 +92,19 @@ void loop() {
 
     mode = receivedString.substring(0,comma1).toInt();
     gripperAngleRx = receivedString.substring(comma1 + 1, comma2).toInt();
-    armAngleRx = receivedString.substring(comma2).toInt();
+    armAngleRx = receivedString.substring(comma2+1).toInt();
 
     switch (mode) {
       // Standby mode (do nothing)
       case -1:
-        gripperAngle = gripperClosed;
-        armAngle = armFar;
+        gripperAngle = gripperAngleRx;
+        armAngle = armAngleRx;
         break;
       // Calibration mode (adjust the armClose constant)
       case 0:
-        gripperAngle = gripperOpen;
-        armAngle = armClose = armAngleRx;
+        gripperAngle = gripperAngleRx;
+        armAngle = armAngleRx;
+        armClose = armAngleRx;
         break;
       // Encountered-type 
       case 1:
@@ -119,8 +120,8 @@ void loop() {
      }
    }
 
-    gripperServo.write(constrain(gripperAngle, 30, 90));
-    armServo.write(constrain(armAngle, 10, 40));
+    gripperServo.write(constrain(gripperAngle, 34, 120));
+    armServo.write(constrain(armAngle, 14, 40));
   
 
 
@@ -132,6 +133,13 @@ void loop() {
   capacitiveLogic2 = (touchVal2 < TOUCH_THRESHOLD ? true : false);
 
   //Sending with delay 10ms
+  // if (millis() - prevMillis > 10) {
+  //   prevMillis = millis();
+  //   stringToSend = (String)armAngleRx + (String)gripperAngleRx;
+  //   Serial.println(stringToSend);
+  //   Serial.flush();
+  // }
+
   if (millis() - prevMillis > 10) {
     prevMillis = millis();
     stringToSend = String(int(capacitiveLogic1)+3) + String(int(capacitiveLogic2)+3);
