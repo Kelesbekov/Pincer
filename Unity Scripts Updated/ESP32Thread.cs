@@ -107,7 +107,7 @@ public class ESP32Thread : MonoBehaviour
 
     public void CheckOutputQueue()
     {
-        string x = "";
+        //string x = "";
         if (outputQueue.Count != 0)
         {
                 Debug.Log(outputQueue.Count + " item(s) in the output queue:");
@@ -127,7 +127,7 @@ public class ESP32Thread : MonoBehaviour
 
     public void CheckInputQueue()
     {
-        string x = "";
+        //string x = "";
         if (inputQueue.Count != 0)
         {
                 Debug.Log(inputQueue.Count + " item(s) in the input queue:");

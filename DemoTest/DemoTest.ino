@@ -14,7 +14,7 @@ int servo2ReadPin = A2;
 int servo1Read;
 int servo2Read;
 
-int angle1 = 30;
+int angle1 = 35;
 int angle2 = 40;
 
 int commaIdx, firstItem, secondItem;
@@ -84,17 +84,17 @@ void loop() {
      firstItem = receivedString.substring(0,commaIdx).toInt();
      secondItem = receivedString.substring(commaIdx+1).toInt();
     proximity = (firstItem == 1 ? true : false);
-     angle2 = (proximity ? 10 : 40);
-     angle1 = (secondItem == 1 ? 70 : (secondItem == 0 ? 90 : 30));
+     angle2 = (proximity ? 20 : 40);
+     angle1 = (secondItem == 1 ? 70 : (secondItem == 0 ? 90 : 35));
      
    }
 
   
 
   
-    myservo1.write(constrain(angle1, 30, 90));
+    myservo1.write(constrain(angle1, 35, 90));
  
-    myservo2.write(constrain(angle2, 10, 40));
+    myservo2.write(constrain(angle2, 20, 40));
   
   // if (millis() - prevMillis > 1000) 
   // {
