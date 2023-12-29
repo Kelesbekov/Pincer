@@ -38,7 +38,7 @@ const int capacitivePin2 = T8;
 bool capacitiveLogic1 = false;
 bool capacitiveLogic2 = false; 
 
-const int TOUCH_THRESHOLD = 30;
+const int TOUCH_THRESHOLD = 40;
 
 
 // Object interaction variables
