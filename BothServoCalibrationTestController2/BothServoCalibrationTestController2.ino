@@ -15,13 +15,13 @@ int ADC_Max = 4096;
 int gripperServoRead;
 int armServoRead;
 
-int gripperAngle = 0;
-int armAngle = 0;
+int gripperAngle = 60;
+int armAngle = 60;
 
 int firstIntValue;
 int secondIntValue;
 
-const int capacitivePinRight = T7;
+const int capacitivePinRight = T5;
 const int capacitivePinLeft = T8; 
 
 const int TOUCH_THRESHOLD = 30;
