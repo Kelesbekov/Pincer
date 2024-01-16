@@ -19,10 +19,10 @@ int armAngle =  60;
 
 unsigned long mytime;
 
-const int capacitivePinRight = T7;
+const int capacitivePinRight = T5;
 const int capacitivePinLeft = T8;
 
-const int TOUCH_THRESHOLD = 30;
+const int TOUCH_THRESHOLD = 35;
 
 void setup()
 {
