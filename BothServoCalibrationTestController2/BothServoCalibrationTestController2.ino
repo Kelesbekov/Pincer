@@ -24,7 +24,7 @@ int secondIntValue;
 const int capacitivePinRight = T5;
 const int capacitivePinLeft = T8; 
 
-const int TOUCH_THRESHOLD = 30;
+const int TOUCH_THRESHOLD = 35;
 
 String receivedString = "";
 String stringToSend = "";
