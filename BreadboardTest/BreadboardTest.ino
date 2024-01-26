@@ -22,7 +22,7 @@ unsigned long mytime;
 const int capacitivePin1 = T9;
 const int capacitivePin2 = T8;
 
-const int TOUCH_THRESHOLD = 30;
+const int TOUCH_THRESHOLD = 40;
 
 void setup()
 {
@@ -49,14 +49,14 @@ void loop() {
   int touchVal2 = touchRead(capacitivePin2);
   
   if(touchVal1 < TOUCH_THRESHOLD){
-    angle1 = 50;
+    angle1 = 60;
   }
   else {
     angle1 = 30;
   }
 
   if(touchVal2 < TOUCH_THRESHOLD){
-    angle2 = 50;
+    angle2 = 60;
   }
   else {
     angle2 = 30;

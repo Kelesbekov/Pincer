@@ -119,7 +119,7 @@ void loop() {
      }
    }
 
-    gripperServo.write(constrain(gripperAngle, 22, 120));
+    gripperServo.write(constrain(gripperAngle, 22, 150));
     armServo.write(constrain(armAngle, 50, 100));
   
 
