@@ -69,7 +69,7 @@ void loop() {
       String secondValue = receivedData.substring(commaIndex + 1);
 
       // Convert the string values to integers or other data types if needed
-      firstIntValue = constrain(firstValue.toInt(), 0, 120);
+      firstIntValue = constrain(firstValue.toInt(), 0, 150);
       secondIntValue = constrain(secondValue.toInt(), 0, 120);
       gripperServo.write(firstIntValue);
       armServo.write(secondIntValue);

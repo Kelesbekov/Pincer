@@ -37,7 +37,8 @@ const int capacitivePinLeft = T8;
 bool capacitiveLogic1 = false;
 bool capacitiveLogic2 = false; 
 
-const int TOUCH_THRESHOLD = 35;
+const int TOUCH_THRESHOLD1 = 35;
+const int TOUCH_THRESHOLD2 = 40;
 
 
 // Object interaction variables
@@ -119,7 +120,7 @@ void loop() {
      }
    }
 
-    gripperServo.write(constrain(gripperAngle, 22, 120));
+    gripperServo.write(constrain(gripperAngle, 22, 150));
     armServo.write(constrain(armAngle, 50, 100));
   
 
@@ -128,8 +129,8 @@ void loop() {
   int touchVal1 = touchRead(capacitivePinRight);
   int touchVal2 = touchRead(capacitivePinLeft);
   
-  capacitiveLogic1 = (touchVal1 < TOUCH_THRESHOLD ? true : false);
-  capacitiveLogic2 = (touchVal2 < TOUCH_THRESHOLD ? true : false);
+  capacitiveLogic1 = (touchVal1 < TOUCH_THRESHOLD1 ? true : false);
+  capacitiveLogic2 = (touchVal2 < TOUCH_THRESHOLD2 ? true : false);
 
   //Sending with delay 10ms
   // if (millis() - prevMillis > 10) {

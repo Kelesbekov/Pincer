@@ -1,21 +1,23 @@
 
 #include <ESP32Servo.h> 
 
-Servo myservo1;
-Servo myservo2;
+Servo gripperServo;
+Servo armServo;
 
-int servo1Pin = MOSI;
-int servo2Pin = TX;
+int gripperServoPin = MOSI;
+int armServoPin = TX;
 
-int servo1ReadPin = A3;
-int servo2ReadPin = A2;
+int gripperServoReadPin = A3;
+int armServoReadPin = A2;
 
-int servo1Read;
-int servo2Read;
+int gripperServoRead;
+int armServoRead;
 
-int angle1 = 34;
-int angle2 = 30;
+int gripperAngle = 34;
+int armAngle = 30;
 
+int gripperVal;
+int armVal;
 
 const int capacitivePin1 = T9;
 const int capacitivePin2 = T8;
@@ -42,17 +44,22 @@ void setup()
 	ESP32PWM::allocateTimer(2);
 	ESP32PWM::allocateTimer(3);
 
-  myservo1.setPeriodHertz(50);
-  myservo1.attach(servo1Pin, 500, 2400);
-  myservo1.write(angle1);
+  gripperServo.setPeriodHertz(50);
+  gripperServo.attach(gripperServoPin, 500, 2400);
+  gripperServo.write(gripperAngle);
 
-  myservo2.setPeriodHertz(50);
-  myservo2.attach(servo2Pin, 500, 2400);
-  myservo2.write(angle2);
+  armServo.setPeriodHertz(50);
+  armServo.attach(armServoPin, 500, 2400);
+  armServo.write(armAngle);
 
 }
 
 void loop() {
+
+  gripperServoRead = analogRead(gripperServoReadPin);
+  armServoRead = analogRead(armServoReadPin);
+
+  
   if (Serial.available() > 0) {
     String receivedData = Serial.readStringUntil('\n');
     receivedData.trim();
@@ -63,12 +70,14 @@ void loop() {
       String secondValue = receivedData.substring(commaIndex + 1);
 
       // Convert the string values to integers or other data types if needed
-      int firstIntValue = constrain(firstValue.toInt(), 34, 120);
-      int secondIntValue = constrain(secondValue.toInt(), 0, 120);
-      myservo1.write(firstIntValue);
-      myservo2.write(secondIntValue);
-      Serial.println("a: " + String(firstIntValue) + "\tb: " +  String(secondIntValue));
-      Serial.flush();
+      gripperVal = constrain(firstValue.toInt(), 34, 120);
+      armVal = constrain(secondValue.toInt(), 0, 120);
+      gripperServo.write(gripperVal);
+      armServo.write(armVal);
+      
   }
 }
+      Serial.println("a: " + String(gripperVal) + "\tb: " +  String(armVal) + "\treadGripper: " + String(gripperServoRead) + "\treadArm: " + String(armServoRead));
+      Serial.flush();
+      delay(100);
 }
